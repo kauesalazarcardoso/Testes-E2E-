@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class CheckoutPage:
@@ -25,4 +27,9 @@ class CheckoutPage:
         self.driver.find_element(*self.FINISH_BUTTON).click()
 
     def get_success_message(self):
-        return self.driver.find_element(*self.SUCCESS_MESSAGE).text
+
+        wait = WebDriverWait(self.driver, 5)
+
+        return wait.until(
+            EC.visibility_of_element_located(self.SUCCESS_MESSAGE)
+        ).text

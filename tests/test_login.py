@@ -1,37 +1,15 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from pages.login_page import LoginPage
 
 
-class LoginPage:
+def test_login_valido(driver):
 
-    URL = "https://www.saucedemo.com/"
+    login_page = LoginPage(driver)
 
-    USERNAME_INPUT = (By.ID, "user-name")
-    PASSWORD_INPUT = (By.ID, "password")
-    LOGIN_BUTTON = (By.ID, "login-button")
-    ERROR_MESSAGE = (By.CSS_SELECTOR, "h3[data-test='error']")
+    login_page.open()
 
-    def __init__(self, driver):
-        self.driver = driver
+    login_page.login(
+        "standard_user",
+        "secret_sauce"
+    )
 
-    def open(self):
-        self.driver.get(self.URL)
-
-    def login(self, username, password):
-        self.driver.find_element(*self.USERNAME_INPUT).clear()
-        self.driver.find_element(*self.USERNAME_INPUT).send_keys(username)
-
-        self.driver.find_element(*self.PASSWORD_INPUT).clear()
-        self.driver.find_element(*self.PASSWORD_INPUT).send_keys(password)
-
-        self.driver.find_element(*self.LOGIN_BUTTON).click()
-
-    def get_error_message(self):
-        wait = WebDriverWait(self.driver, 5)
-        return wait.until(
-            EC.visibility_of_element_located(self.ERROR_MESSAGE)
-        ).text
-
-    def is_logged_in(self):
-        return "inventory" in self.driver.current_url
+    assert login_page.is_logged_in()

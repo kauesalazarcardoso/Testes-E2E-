@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 
+
 class LoginPage:
 
     URL = "https://www.saucedemo.com"
@@ -16,11 +17,23 @@ class LoginPage:
         self.driver.get(self.URL)
 
     def login(self, username, password):
-        self.driver.find_element(*self.USERNAME_INPUT).send_keys(username)
 
-        self.driver.find_element(*self.PASSWORD_INPUT).send_keys(password)
+        self.driver.find_element(
+            *self.USERNAME_INPUT
+        ).send_keys(username)
 
-        self.driver.find_element(*self.LOGIN_BUTTON).click()
+        self.driver.find_element(
+            *self.PASSWORD_INPUT
+        ).send_keys(password)
+
+        self.driver.find_element(
+            *self.LOGIN_BUTTON
+        ).click()
 
     def get_error_message(self):
-        return self.driver.find_element(*self.ERROR_MESSAGE).text
+        return self.driver.find_element(
+            *self.ERROR_MESSAGE
+        ).text
+
+    def is_logged_in(self):
+        return "inventory" in self.driver.current_url
