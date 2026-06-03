@@ -11,22 +11,18 @@ def test_fluxo_checkout_completo(driver):
     cart = CartPage(driver)
     checkout = CheckoutPage(driver)
 
-    # login
     login.open()
     login.login("standard_user", "secret_sauce")
 
-    # add product
     inventory.add_first_product_to_cart()
     inventory.go_to_cart()
 
-    # checkout
     cart.click_checkout()
 
     checkout.fill_form("Kaue", "Test", "95690000")
     checkout.continue_checkout()
     checkout.finish_checkout()
 
-    # validação final
     message = checkout.get_success_message()
 
     assert "THANK YOU" in message.upper()
